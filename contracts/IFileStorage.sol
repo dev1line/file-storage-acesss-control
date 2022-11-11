@@ -3,6 +3,7 @@ pragma solidity 0.8.9;
 
 interface IFileStorage {
     struct File {
+        uint256 id;
         string fileType;
         string fileName;
         string fileLink;
@@ -23,13 +24,15 @@ interface IFileStorage {
 
     function updateMetadata(uint256 _fileID, File memory _newFile) external;
 
-    function deleteMetadata(uint256 _fileID) external;
+    function deleteMetadata(uint256 _fileID, address _user) external;
 
     function addAuthorizedUser(uint256 _fileID, address _user) external;
 
     function removeAuthorizedUser(uint256 _fileID, address _user) external;
 
     function verify(uint256 _fileID, address _caller) external view returns (bool);
+
+    function getMyFiles(address _caller) external view returns (File[] memory);
 
     function getCurrentId() external view returns (uint256);
 }

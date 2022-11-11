@@ -90,6 +90,7 @@ contract AccessControl is OwnableUpgradeable, ReentrancyGuardUpgradeable {
      */
     function updateFile(uint256 _fileID, IFileStorage.File memory _file) external onlyCreator(_fileID, _msgSender()) {
         require(_file.privateCreator == _msgSender(), "Error: Field not allow to change");
+        require(_fileID == _file.id, "Error: Can not update file ID");
         fileStorage.updateMetadata(_fileID, _file);
 
         emit UpdateFile(_fileID);
@@ -100,7 +101,7 @@ contract AccessControl is OwnableUpgradeable, ReentrancyGuardUpgradeable {
      * @param _fileID ID of file uploaded
      */
     function deleteFile(uint256 _fileID) external onlyCreator(_fileID, _msgSender()) {
-        fileStorage.deleteMetadata(_fileID);
+        fileStorage.deleteMetadata(_fileID, _msgSender());
 
         emit DeleteFile(_fileID);
     }
@@ -125,5 +126,12 @@ contract AccessControl is OwnableUpgradeable, ReentrancyGuardUpgradeable {
         fileStorage.removeAuthorizedUser(_fileID, _user);
 
         emit RemoveAuthorizedUser(_fileID, _user);
+    }
+
+    /**
+     * @dev  Get all Files of caller
+     */
+    function getMyFiles() external view returns (IFileStorage.File[] memory) {
+        return fileStorage.getMyFiles(_msgSender());
     }
 }
