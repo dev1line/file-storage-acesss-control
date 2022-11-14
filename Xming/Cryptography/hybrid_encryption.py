@@ -5,11 +5,12 @@ import zlib
 import pathlib
 import os
 from getpass import getuser
+from typing import Union
 
 block_size: int = 128  # size of a key
 
 # Default path for storing the keys, encrypted file and decrypted file.
-default_path = f"C:/Users/{getuser()}/Hybrid Encryption"
+default_path = "/mnt/d/Freelance/Upwork/file-storage-contracts/Xming/Storage"
 
 
 def get_file_name(file_path, extension=False):
@@ -29,7 +30,7 @@ def get_file_name(file_path, extension=False):
     return file_name
 
 
-def str_to_bytes(value: [str, bytes]) -> bytes:
+def str_to_bytes(value: Union[str, bytes]) -> bytes:
 
     if isinstance(value, str):
         return value.encode(encoding='utf8')
@@ -92,6 +93,7 @@ def encryption(file_path):
     file_reader = open(file_path, "rb")
     plaintext = file_reader.read()
     file_reader.close()
+  
 
     if is_file_encrypted(get_magic(), plaintext):
         mgs = "File is already encrypted cannot encrypt again"
@@ -151,13 +153,15 @@ def decryption(file_path):
         mode = AES.MODE_CBC
         cipher = AES.new(session_key, mode, iv)
         plaintext = unpad(cipher.decrypt(cipher_text[AES.block_size:]))
-
+        print("v1")
         file_name = get_file_name(file_path)
+        print("v2")
         with open(f"{default_path}/{file_name}", "wb") as decrypted_file:
             decrypted_file.write(plaintext)
             decrypted_file.close()
-
+        print("v3")
         os.remove(file_path)   # Removes the encrypted file after completion of decryption
+        print("v4")
         mgs = f"File successfully decrypted & stored at :\n{default_path}"
 
     except Exception as e:

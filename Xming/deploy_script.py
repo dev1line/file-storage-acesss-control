@@ -2,7 +2,11 @@ import os
 import json
 from web3 import Web3
 from solcx import compile_standard, install_solc
+from dotenv import load_dotenv
 
+load_dotenv()
+# os.system('export DISPLAY=localhost:0.0')
+os.environ["DISPLAY"] = "localhost:0.0"
 ganache_url = "http://127.0.0.1:7545"
 
 web3 = Web3(Web3.HTTPProvider(ganache_url))
@@ -14,8 +18,9 @@ endpoint = "https://ipfs.infura.io:5001"
 install_solc("0.8.9")
 chain_id = 1337
 
-my_address = "0x48416B1fb7653019BAF244044134C1821d0519C0"
-private_key = "872c7d5c3af9f00a3b7da6f57fd6491ef6058382b159f7a178372b63d43f311b"
+my_address = os.getenv('ACCOUNT')
+private_key = os.getenv('PRIVATE_KEY')
+
 nonce = web3.eth.getTransactionCount(my_address)
 # check the latest block number
 print(web3.eth.blockNumber, nonce)

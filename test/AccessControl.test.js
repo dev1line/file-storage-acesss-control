@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { upgrades, ethers } = require("hardhat");
 const { formatBytes32String } = ethers.utils;
-
+const { BN } = require("./utils");
 describe("AccessControl", () => {
     beforeEach(async () => {
         const accounts = await ethers.getSigners();
@@ -69,9 +69,11 @@ describe("AccessControl", () => {
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
             const metadata = await accessControl.connect(user1).getFile(1);
-            expect(metadata[0]).to.equal("file_type");
-            expect(metadata[1]).to.equal("file_name");
-            expect(metadata[2]).to.equal("file_link");
+
+            expect(metadata[0]).to.equal(BN(1));
+            expect(metadata[1]).to.equal("file_type");
+            expect(metadata[2]).to.equal("file_name");
+            expect(metadata[3]).to.equal("file_link");
         });
     });
 
@@ -108,9 +110,10 @@ describe("AccessControl", () => {
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
             const metadata = await accessControl.connect(user1).getFile(1);
-            expect(metadata[0]).to.equal("file_type");
-            expect(metadata[1]).to.equal("file_name");
-            expect(metadata[2]).to.equal("file_link");
+            expect(metadata[0]).to.equal(BN(1));
+            expect(metadata[1]).to.equal("file_type");
+            expect(metadata[2]).to.equal("file_name");
+            expect(metadata[3]).to.equal("file_link");
         });
     });
 
@@ -126,6 +129,7 @@ describe("AccessControl", () => {
 
             expect(await fileStorage.getCurrentId()).to.equal(1);
             const update_data = [
+                1,
                 "update_file_type",
                 "update_file_name",
                 "update_file_link",
@@ -149,6 +153,7 @@ describe("AccessControl", () => {
 
             expect(await fileStorage.getCurrentId()).to.equal(1);
             const update_data = [
+                1,
                 "update_file_type",
                 "update_file_name",
                 "update_file_link",
@@ -172,6 +177,7 @@ describe("AccessControl", () => {
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
             const update_data = [
+                1,
                 "update_file_type",
                 "update_file_name",
                 "update_file_link",
@@ -180,9 +186,10 @@ describe("AccessControl", () => {
             ];
             await accessControl.updateFile(1, update_data);
             const metadata = await accessControl.connect(user1).getFile(1);
-            expect(metadata[0]).to.equal("update_file_type");
-            expect(metadata[1]).to.equal("update_file_name");
-            expect(metadata[2]).to.equal("update_file_link");
+            expect(metadata[0]).to.equal(BN(1));
+            expect(metadata[1]).to.equal("update_file_type");
+            expect(metadata[2]).to.equal("update_file_name");
+            expect(metadata[3]).to.equal("update_file_link");
         });
     });
 
@@ -249,9 +256,10 @@ describe("AccessControl", () => {
 
             await accessControl.addAuthorizedUser(1, user4.address);
             const metadata = await accessControl.connect(user4).getFile(1);
-            expect(metadata[0]).to.equal("file_type");
-            expect(metadata[1]).to.equal("file_name");
-            expect(metadata[2]).to.equal("file_link");
+            expect(metadata[0]).to.equal(BN(1));
+            expect(metadata[1]).to.equal("file_type");
+            expect(metadata[2]).to.equal("file_name");
+            expect(metadata[3]).to.equal("file_link");
         });
     });
 

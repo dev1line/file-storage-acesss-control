@@ -149,6 +149,18 @@ contract FileStorage is OwnableUpgradeable {
     }
 
     /**
+     * @dev  Get all authorized users of caller
+     * @param _fileID file ID
+     */
+    function getAuthorizedUsersOf(uint256 _fileID) external view onlyOwner returns (address[] memory) {
+        address[] memory auth_users = new address[](_fileIdToWhitelist[_fileID].length());
+        for (uint256 i = 0; i < _fileIdToWhitelist[_fileID].length(); i++) {
+            auth_users[i] = _fileIdToWhitelist[_fileID].at(i);
+        }
+        return auth_users;
+    }
+
+    /**
      * @dev Get current ID of file
      */
     function getCurrentId() external view returns (uint256) {

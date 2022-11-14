@@ -6,12 +6,12 @@ import os
 from getpass import getuser
 from Crypto.Random import get_random_bytes
 import hashlib
-
+from typing import Union
 # key path for storing the AES key
-key_path = f"C:/Users/{getuser()}/Hybrid Encryption/DoNotDelete/AES key.txt"
+key_path = "/mnt/d/Freelance/Upwork/file-storage-contracts/Xming/Storage/DoNotDelete/AES key.txt"
 
 
-def str_to_bytes(value: [str, bytes]) -> bytes:
+def str_to_bytes(value: Union[str, bytes]) -> bytes:
     if isinstance(value, str):
         return value.encode(encoding='utf8')
     return value
@@ -19,6 +19,7 @@ def str_to_bytes(value: [str, bytes]) -> bytes:
 
 def is_AES_key_exist():
     """Returns True if AES key already exist else False"""
+    print("key_path", key_path)
     return os.path.isfile(key_path) and os.stat(key_path).st_size != 0
 
 

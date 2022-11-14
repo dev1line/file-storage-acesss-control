@@ -34,5 +34,7 @@ interface IFileStorage {
 
     function getMyFiles(address _caller) external view returns (File[] memory);
 
+    function getAuthorizedUsersOf(uint256 _fileID) external view returns (address[] memory);
+
     function getCurrentId() external view returns (uint256);
 }

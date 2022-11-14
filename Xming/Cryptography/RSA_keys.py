@@ -6,7 +6,7 @@ import ctypes
 import os
 
 user = getuser()  # get the username
-directory_path = "C:/Users/{}/Hybrid Encryption".format(user)  # path for default directory
+directory_path = "/mnt/d/Freelance/Upwork/file-storage-contracts/Xming/Storage"  # path for default directory
 keys_path = "{}/DoNotDelete".format(directory_path)  # path for keys folder where, keys will be stored
 
 
@@ -18,7 +18,7 @@ def is_keys_exist():
 
 def is_file_exist():
     """Returns True if both the key files(public key file and private key file) are exist else False"""
-
+    print("keys_path:", keys_path)
     public_key_path = f"{keys_path}/public key.pem"
     private_key_path = f"{keys_path}/private key.pem"
     is_public_key_exist = os.path.isfile(public_key_path) and os.stat(public_key_path).st_size != 0

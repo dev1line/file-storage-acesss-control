@@ -110,9 +110,10 @@ describe("FileStorage", () => {
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
             const metadata = await fileStorage.readMetadata(1);
-            expect(metadata[0]).to.equal("file_type");
-            expect(metadata[1]).to.equal("file_name");
-            expect(metadata[2]).to.equal("file_link");
+            expect(metadata[0]).to.equal(1);
+            expect(metadata[1]).to.equal("file_type");
+            expect(metadata[2]).to.equal("file_name");
+            expect(metadata[3]).to.equal("file_link");
         });
     });
 
@@ -129,6 +130,7 @@ describe("FileStorage", () => {
 
             expect(await fileStorage.getCurrentId()).to.equal(1);
             const update_data = [
+                1,
                 "update_file_type",
                 "update_file_name",
                 "update_file_link",
@@ -153,6 +155,7 @@ describe("FileStorage", () => {
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
             const update_data = [
+                1,
                 "update_file_type",
                 "update_file_name",
                 "update_file_link",
@@ -161,9 +164,10 @@ describe("FileStorage", () => {
             ];
             await fileStorage.updateMetadata(1, update_data);
             const metadata = await fileStorage.readMetadata(1);
-            expect(metadata[0]).to.equal("update_file_type");
-            expect(metadata[1]).to.equal("update_file_name");
-            expect(metadata[2]).to.equal("update_file_link");
+            expect(metadata[0]).to.equal(1);
+            expect(metadata[1]).to.equal("update_file_type");
+            expect(metadata[2]).to.equal("update_file_name");
+            expect(metadata[3]).to.equal("update_file_link");
         });
     });
 
@@ -180,7 +184,7 @@ describe("FileStorage", () => {
 
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
-            await expect(fileStorage.connect(user1).deleteMetadata(1)).to.be.revertedWith(
+            await expect(fileStorage.connect(user1).deleteMetadata(1, user1.address)).to.be.revertedWith(
                 "Ownable: caller is not the owner"
             );
         });
@@ -197,7 +201,7 @@ describe("FileStorage", () => {
 
             expect(await fileStorage.getCurrentId()).to.equal(1);
 
-            const metadata = await fileStorage.deleteMetadata(1);
+            const metadata = await fileStorage.deleteMetadata(1, owner.address);
             expect(metadata[0]).to.equal(undefined);
             expect(metadata[1]).to.equal(undefined);
             expect(metadata[2]).to.equal(undefined);

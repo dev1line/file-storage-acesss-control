@@ -11,9 +11,11 @@ from web3 import Web3
 from solcx import compile_standard, install_solc
 import pickle
 import pandas as pd
+from dotenv import load_dotenv
 
-import matplotlib
-matplotlib.use('Agg')
+load_dotenv()
+# import matplotlib
+# matplotlib.use('Agg')
 
 ganache_url = "http://127.0.0.1:7545"
 
@@ -33,8 +35,8 @@ w3 = Web3(
 )
 chain_id = 1337
 
-my_address = "0x786cbFf099CcAd1401Ab8aE582272CdfCc6d0f85"
-private_key = "e6fd8ffe050909b736d3c52e10d167965055eee56f791801d584d6f5454277f7"
+my_address = os.getenv('ACCOUNT')
+private_key = os.getenv('PRIVATE_KEY')
 nonce = w3.eth.getTransactionCount(my_address)
 # store file on ipfs
 def store_file_ipfs(FILE_NAME):
@@ -68,7 +70,7 @@ def get_file_ipfs(CID):
     )
    
     # write downloaded file from ipfs
-    with open(CID + '.csv.enc', 'wb') as f:
+    with open(CID + '.enc', 'wb') as f:
         f.write(response.content)
     # df = pd.read_csv(CID)    
     # return df

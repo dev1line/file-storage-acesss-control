@@ -134,4 +134,16 @@ contract AccessControl is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     function getMyFiles() external view returns (IFileStorage.File[] memory) {
         return fileStorage.getMyFiles(_msgSender());
     }
+
+    /**
+     * @dev  Get all Files of caller
+     */
+    function getAuthorizedUsersOf(uint256 _fileID)
+        external
+        view
+        onlyCreator(_fileID, _msgSender())
+        returns (address[] memory)
+    {
+        return fileStorage.getAuthorizedUsersOf(_fileID);
+    }
 }
